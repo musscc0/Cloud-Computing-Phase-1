@@ -1,0 +1,12 @@
+{
+  "status": "done",
+  "input_object": "raw/us101.csv",
+  "output_prefix": "runs/run2",
+  "cleaned_rows": 546967,
+  "scenario_count": 8546,
+  "counts_by_label": {
+    "congested_traffic": 5792,
+    "car_following": 2601,
+    "lane_change": 153
+  }
+}

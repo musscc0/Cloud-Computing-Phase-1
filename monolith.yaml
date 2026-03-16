@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ngsim-phase1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ngsim-phase1
+  template:
+    metadata:
+      labels:
+        app: ngsim-phase1
+    spec:
+      containers:
+        - name: ngsim-phase1
+          image: northamerica-northeast2-docker.pkg.dev/cloud-proj-490317/sofe4630u/ngsim-phase1:latest
+          env:
+            - name: PROJECT_ID
+              value: cloud-proj-490317
+            - name: TOPIC_ID
+              value: ngsim-phase1-jobs
+            - name: SUBSCRIPTION_ID
+              value: ngsim-phase1-jobs-sub
+            - name: WINDOW_FRAMES
+              value: "50"
+            - name: STRIDE_FRAMES
+              value: "10"
+            - name: PLOT_LIMIT
+              value: "6"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
+          resources:
+            requests:
+              cpu: "1"
+              memory: "6Gi"
+              ephemeral-storage: "4Gi"
+            limits:
+              cpu: "2"
+              memory: "10Gi"
+              ephemeral-storage: "8Gi"
+          volumeMounts:
+            - name: gcp-key
+              mountPath: /var/secrets/google
+              readOnly: true
+      volumes:
+        - name: gcp-key
+          secret:
+            secretName: gcp-sa-key
